@@ -5,6 +5,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ConcertsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ConcertOrdersController;
+use App\Http\Controllers\ConcertMessagesController;
 use App\Http\Controllers\PublishConcertsController;
 use App\Http\Controllers\Backstage\PublishedConcertOrdersController;
 use App\Http\Controllers\Backstage\ConcertsController as BackStageConcertsController;
@@ -41,4 +42,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'backstage'], function(){
 
     Route::post('/publish-concert', [PublishConcertsController::class, 'store'])->name('backstage.publish-concert.store');
     Route::get('/published-concerts/{id}/orders', [PublishedConcertOrdersController::class, 'index']);
+
+    Route::get('/concerts/{id}/messages/new', [ConcertMessagesController::class, 'create'])->name('backstage.message-concert.create');
+    Route::post('/concerts/{id}/messages', [ConcertMessagesController::class, 'store']);
 });

@@ -1,12 +1,16 @@
 <x-promoter-layout>
     <div class="container mx-auto py-5">
         <div class="flex align-baseline justify-between">
-            <div class="flex align-middle space-y-2">
+            <div class="flex align-middle space-x-2">
                 <p class="text-xl font-bold">{{ $concert->title }}</p>
                 /
                 <p class="text-sm text-gray-500">{{ $concert->formatted_date }}</p>
             </div>
-            <p class="text-xl font-bold">Orders</p>
+            <div class="flex align-middle space-x-2">
+                <p class="text-xl font-bold">Orders</p>
+
+                <a class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="/backstage/concerts/{{ $concert->id }}/messages/new">Send Message</a>
+            </div>
         </div>
         <div class="mt-10">
             <p class="text-2xl text-gray-600">Overview</p>
