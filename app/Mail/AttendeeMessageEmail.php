@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class AttendeeMessageEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    
+
     public $attendeeMessage;
 
     /**
@@ -30,6 +30,6 @@ class AttendeeMessageEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->text('emails.attendee-message')->subject($this->attendeeMessage->subject);
     }
 }

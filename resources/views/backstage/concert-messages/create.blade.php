@@ -33,8 +33,15 @@
                                     name="subject"
                                     id="subject"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                    placeholder="Subject">
+                                    placeholder="Subject"
+                                    value="{{ old('subject') }}"
+                                >
                             </div>
+                            @if($errors->has('subject'))
+                            <p class="text-sm text-red-500">
+                                {{ $errors->first('subject') }}
+                            </p>
+                            @endif
                         </div>
 
                         <div>
@@ -42,8 +49,19 @@
                                 Message
                             </label>
                             <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <textarea id="message" name="message" rows="3" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"></textarea>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    rows="5"
+                                    class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                                    value="{{ old('message') }}"
+                                ></textarea>
                             </div>
+                            @if($errors->has('subject'))
+                            <p class="text-sm text-red-500">
+                                {{ $errors->first('subject') }}
+                            </p>
+                            @endif
                         </div>
 
                         <div>

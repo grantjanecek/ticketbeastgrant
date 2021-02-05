@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Models\Concert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\NullFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ConcertsController extends Controller
 {
@@ -65,6 +67,8 @@ class ConcertsController extends Controller
 
     public function store()
     {
+        ray(request()->file('poster_image'));
+
         $this->validate(request(), [
             'title' => ['required'],
             'date' => ['required', 'date'],
@@ -76,6 +80,7 @@ class ConcertsController extends Controller
             'zip' => ['required'],
             'ticket_price' => ['required', 'numeric', 'min:5'],
             'ticket_quantity' => ['required', 'numeric', 'min:1'],
+            'poster_image' => ['nullable', 'image', Rule::dimensions()->minWidth(600)->ratio(8.5/11)],
         ]);
 
         $concert = Auth::user()->concerts()->create([
@@ -93,6 +98,7 @@ class ConcertsController extends Controller
             'zip' => request('zip'),
             'ticket_price' => request('ticket_price') * 100,
             'ticket_quantity' => (int)request('ticket_quantity'),
+            'poster_image_path' => request('poster_image', new NullFile)->store('posters', 'public'),
         ]);
 
         return redirect()->route('backstage.concerts.index');
