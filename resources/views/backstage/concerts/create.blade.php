@@ -1,5 +1,6 @@
 <x-promoter-layout>
     <div class="container mx-auto py-5">
+        <!-- Header text -->
         <div class="flex align-baseline justify-between">
             <p class="text-4xl">New Concert</p>
             <a href="/backstage/concerts" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -140,19 +141,42 @@
                         </div>
                         <div class="md:col-span-2">
                             <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                <div class="space-y-1 text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                    <div class=" text-center text-sm text-gray-600">
-                                        <label for="poster_image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                        <span>Upload a file</span>
-                                        <input id="poster_image" name="poster_image" type="file" class="sr-only">
-                                        </label>
+                                <div
+                                    x-data="{
+                                        fileUrl: null,
+
+                                        loadFile(file){
+                                            this.fileUrl = URL.createObjectURL(file);
+                                        },
+
+                                        removeFile(){
+                                            this.fileUrl = null;
+                                            this.$refs.poster_image.value = null;
+                                        }
+                                    }"
+                                    class="space-y-1 text-center"
+                                >
+                                    <div x-show="! fileUrl">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div class=" text-center text-sm text-gray-600">
+                                            <label for="poster_image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                <span>Upload a file</span>
+                                                <input x-ref="poster_image" @input="loadFile($event.target.files[0])" id="poster_image" name="poster_image" type="file" class="sr-only">
+                                            </label>
+                                        </div>
                                     </div>
-                                    <p class="text-xs text-gray-500">
-                                        PNG, JPG, GIF up to 10MB
-                                    </p>
+                                    <template x-if="fileUrl">
+                                        <div class="relative">
+                                            <img :src="fileUrl" alt="" class="h-20 w-auto mx-auto">
+                                            <button type="button" class="absolute top-0 right-0 -mr-2 -mt-2" @click="removeFile">
+                                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>

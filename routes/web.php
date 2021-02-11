@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ConcertsController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\InvitationsController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ConcertOrdersController;
 use App\Http\Controllers\ConcertMessagesController;
 use App\Http\Controllers\PublishConcertsController;
@@ -32,6 +34,10 @@ Route::get('/orders/{confirmationNumber}', [OrdersController::class, 'show']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+
+Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('/invitations/{code}', [InvitationsController::class, 'show']);
 
 Route::group(['middleware' => 'auth', 'prefix' => 'backstage'], function(){
     Route::get('/concerts', [BackStageConcertsController::class, 'index'])->name('backstage.concerts.index');

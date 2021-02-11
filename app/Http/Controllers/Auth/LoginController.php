@@ -18,7 +18,7 @@ class LoginController extends Controller
                 'email' => 'Credentials do not match our records'
             ])->withInput(request(['email']));
         }
-        return redirect('/backstage/concerts/new');
+        return redirect('/backstage/concerts');
     }
 
     public function logout()

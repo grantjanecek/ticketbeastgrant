@@ -4,9 +4,11 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Concert;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Events\ConcertAdded;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddConcertTest extends TestCase
 {
@@ -322,6 +324,7 @@ class AddConcertTest extends TestCase
     /** @test */
     function posted_image_is_uploaded_if_included()
     {
+        Event::fake([ConcertAdded::class]);
         Storage::fake('public');
         $user = User::factory()->create();
         $file = File::image('concert-poster.png', 850, 1100);
@@ -406,5 +409,18 @@ class AddConcertTest extends TestCase
 
             $this->assertNull($concert->poster_image_path);
         });
+    }
+
+    /** @test */
+    function concert_added_event_is_fired_when_a_concert_is_added()
+    {
+        Event::fake([
+            ConcertAdded::class,
+        ]);
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post('/backstage/concerts/new', $this->validParams());
+
+        Event::assertDispatched(ConcertAdded::class, fn($event) => $event->concert->is(Concert::firstOrFail()));
     }
 }
