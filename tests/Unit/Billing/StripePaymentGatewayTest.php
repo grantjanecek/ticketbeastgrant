@@ -19,12 +19,6 @@ class StripePaymentGatewayTest extends TestCase
 {
     use PaymentGatewayContractTests;
 
-    public function setUp() : void
-    {
-        parent::setUp();
-        $this->markTestIncomplete();
-    }
-
     protected function getPaymentGateway()
     {
         return new StripePaymentGateway(config('services.stripe.key'));
